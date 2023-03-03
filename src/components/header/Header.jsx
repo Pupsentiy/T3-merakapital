@@ -1,8 +1,8 @@
 import React from "react";
 
-import styles from "./HeaderTop.module.scss";
+import styles from "./Header.module.scss";
 
-const HeaderTop = () => {
+const Header = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav_strategy}>
@@ -26,4 +26,4 @@ const HeaderTop = () => {
   );
 };
 
-export default HeaderTop;
+export default Header;

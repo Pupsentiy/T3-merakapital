@@ -2,7 +2,7 @@ import axios from "axios";
 import {
   FETCH_DATA,
   FETCH_DATA_ERROR,
-  FETCH_DATA_SUCCESS, SELECTED_CURRENCY,
+  FETCH_DATA_SUCCESS,
 } from "../reducers/dataReducer";
 
 export const fetchDataAction = () => {
@@ -22,8 +22,4 @@ export const fetchDataAction = () => {
   };
 };
 
-export const setCurrencyValueAction = (value) => {
-  return (dispatch) => {
-    dispatch({type:SELECTED_CURRENCY,payload:value})
-  }
-}
+
