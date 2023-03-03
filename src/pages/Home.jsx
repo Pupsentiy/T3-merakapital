@@ -5,14 +5,15 @@ import { fetchDataAction } from "../store/action-creators/data";
 
 import Chart from "../components/chart/Cahrt";
 
+import styles from './Home.scss'
+
 const Home = () => {
   const dispatch = useDispatch();
-  const { loading, btc, usd, title, error } = useSelector(
+  const { loading, error, reqNumber } = useSelector(
     (state) => state.data
   );
-
   useEffect(() => {
-    dispatch(fetchDataAction());
+    dispatch(fetchDataAction(reqNumber));
   }, [dispatch]);
 
   
@@ -20,12 +21,10 @@ const Home = () => {
     return <h1>{error}</h1>;
   }
 
-  // const data = usd.slice(0,10)
-  // console.log(selectedCurrency);
   return (
     <>
       {loading ? (
-        <h1>Идет загрузка...</h1>
+        <h1 className={styles.loading}>Идет загрузка...</h1>
       ) : (
         <Chart  />
       )}

@@ -16,6 +16,16 @@
         margin-right: 10px;
         border-radius: 3px;
         border: solid 2px black;
+
+      }
+      .list__item_active{
+        background: black;
+        color: white;
+        padding: 5px 20px;
+        font-size: 14px;
+        margin-right: 10px;
+        border-radius: 3px;
+        border: solid 2px black;
       }
       .reload__item {
         padding: 5px 20px;
