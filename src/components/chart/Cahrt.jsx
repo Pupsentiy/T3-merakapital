@@ -7,12 +7,9 @@ const Chart = () => {
   const state = useSelector(
     (state) => state.data
   );
+  const { theme} = useTheme()
   const [activeButton, setActiveButton] = useState(0)
-  const { theme } = useTheme()
   const [color, setColor] = useState()
-
-  console.log(theme)
-
   const [config, setConfig] = useState({
     series: [
       {
@@ -20,7 +17,6 @@ const Chart = () => {
         data: state.usd.map(el => el.value) || [],
       },
     ],
-
     options: {
       chart: {
         id: "chart1",
@@ -93,7 +89,6 @@ const Chart = () => {
   });
 
 
-
    const setUpdateDate = (str) => {
        setConfig({
          ...config,
@@ -109,36 +104,18 @@ const Chart = () => {
        })
 
    }
-
-
-
-
   useEffect(() => {
-    if(theme === 'dark'){
-      setColor('#fff')
-      setConfig({
-        ...config,
-        options: {
-          chart: {
-            id: 'chart1',
-            foreColor: color
-          }
-        },
-      })
-    }else {
-      setColor('#000')
-      setConfig({
-        ...config,
-        options: {
-          chart: {
-            id: 'chart1',
-            foreColor: color
-          }
-        },
-      })
-    }
-  }, [theme,color])
+       setConfig({
+         ...config,
+         options: {
+           chart: {
+             id: 'chart1',
+             foreColor: state.colorTheme === 'light' ? '#000' : '#fff'
+           }
+         },
+       })
 
+  }, [state.colorTheme])
    const onChangeCurrency = (num) => {
      setActiveButton(num)
    }

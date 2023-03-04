@@ -42,6 +42,10 @@
     transition: background-color 200ms linear;
     margin-left: auto;
     border: 1px solid var(--button-border-color);
+
+    .wrapper{
+      display: flex;
+    }
   }
 
   .button__light,
