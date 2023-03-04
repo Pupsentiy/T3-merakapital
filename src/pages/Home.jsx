@@ -7,7 +7,7 @@ import Chart from "../components/chart/Cahrt";
 
 import styles from './Home.scss'
 
-const Home = () => {
+const Home = ({ theme, setTheme }) => {
   const dispatch = useDispatch();
   const { loading, error, reqNumber } = useSelector(
     (state) => state.data
@@ -26,7 +26,9 @@ const Home = () => {
       {loading ? (
         <h1 className={styles.loading}>Идет загрузка...</h1>
       ) : (
-        <Chart  />
+          <>
+            <Chart  />
+          </>
       )}
     </>
   );

@@ -1,10 +1,29 @@
+
+html[data-theme='dark'] {
+  --button-text-color: #000;
+  --button-background-color: #fafafa;
+  --button-border-color: #ffffff;
+  --background-color: #292929;
+  --text-color:#fff
+
+}
+
+html[data-theme='light'] {
+  --button-background-color: #fafafa;
+  --button-border-color: #000;
+
+  --background-color: #dfdfdf;
+  --text-color:#000
+}
+
 html{
   height: 100%;
 }
 
 body{
-  background-color: #d3d3d3;
+  background: var(--background-color);
   height: 100%;
+  color: var(--text-color);
 }
 
 .container {
@@ -12,7 +31,7 @@ body{
   margin: 0 auto;
   padding: 0 30px;
   font-family: 'Roboto', sans-serif;
-  
+  position: relative;
 }
 
 button{

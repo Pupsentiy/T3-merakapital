@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import ReactApexChart from "react-apexcharts";
 import {  useSelector } from "react-redux";
 import styles from "./Chart.module.scss";
-
+import {useTheme} from "../../hooks/use-theme";
 const Chart = () => {
   const state = useSelector(
     (state) => state.data
   );
   const [activeButton, setActiveButton] = useState(0)
+  const { theme } = useTheme()
+  const [color, setColor] = useState()
+
+  console.log(theme)
+
   const [config, setConfig] = useState({
     series: [
       {
@@ -22,6 +27,7 @@ const Chart = () => {
         type: "area",
         stacked: false,
         height: 350,
+        foreColor:'#000',
         zoom: {
           type: "x",
           enabled: true,
@@ -87,6 +93,7 @@ const Chart = () => {
   });
 
 
+
    const setUpdateDate = (str) => {
        setConfig({
          ...config,
@@ -103,7 +110,36 @@ const Chart = () => {
 
    }
 
-   const toggleButton = (num) => {
+
+
+
+  useEffect(() => {
+    if(theme === 'dark'){
+      setColor('#fff')
+      setConfig({
+        ...config,
+        options: {
+          chart: {
+            id: 'chart1',
+            foreColor: color
+          }
+        },
+      })
+    }else {
+      setColor('#000')
+      setConfig({
+        ...config,
+        options: {
+          chart: {
+            id: 'chart1',
+            foreColor: color
+          }
+        },
+      })
+    }
+  }, [theme,color])
+
+   const onChangeCurrency = (num) => {
      setActiveButton(num)
    }
 
@@ -114,10 +150,10 @@ const Chart = () => {
         <nav className={styles.nav_money}>
           <ul className={styles.list_container}>
             <li>
-              <button className={activeButton === 0  ? styles.list__item_active : styles.list__item} onClick={(event) => (setUpdateDate('usd'),toggleButton(0))}>USD</button>
+              <button className={activeButton === 0  ? styles.list__item_active : styles.list__item} onClick={(event) => (setUpdateDate('usd'),onChangeCurrency(0))}>USD</button>
             </li>
             <li>
-              <button className={activeButton === 1 ? styles.list__item_active : styles.list__item  } onClick={(event) => (setUpdateDate('btc'),toggleButton(1))}>BTC</button>
+              <button className={activeButton === 1 ? styles.list__item_active : styles.list__item  } onClick={(event) => (setUpdateDate('btc'),onChangeCurrency(1))}>BTC</button>
             </li>
           </ul>
         </nav>
