@@ -9,7 +9,7 @@ import {useTheme} from "../../hooks/use-theme";
 const Header = () => {
   const dispatch = useDispatch()
   const { theme, setTheme } = useTheme()
-  const {reqNumber,colorTheme} = useSelector(
+  const {reqNumber} = useSelector(
       (state) => state.data
   );
   const [num,setNum] = useState(1)

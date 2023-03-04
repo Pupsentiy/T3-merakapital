@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from "react";
 import ReactApexChart from "react-apexcharts";
 import {  useSelector } from "react-redux";
+
 import styles from "./Chart.module.scss";
-import {useTheme} from "../../hooks/use-theme";
+
 const Chart = () => {
   const state = useSelector(
     (state) => state.data
   );
-  const { theme} = useTheme()
   const [activeButton, setActiveButton] = useState(0)
-  const [color, setColor] = useState()
   const [config, setConfig] = useState({
     series: [
       {
@@ -24,6 +23,7 @@ const Chart = () => {
         stacked: false,
         height: 350,
         foreColor:'#000',
+        background:'#fffffff0',
         zoom: {
           type: "x",
           enabled: true,
@@ -35,9 +35,10 @@ const Chart = () => {
       },
       labels:  state.usd.map(el => el.time) || [],
 
-      colors: ["#0090FF"],
+      colors: ['rgba(205,114,114,0.94)'],
       dataLabels: {
         enabled: false,
+
       },
       markers: {
         size: 0,
@@ -70,6 +71,7 @@ const Chart = () => {
         type: "datetime",
         title: {
           text: "Date",
+
         },
         labels: {
           formatter: function (value, timestamp) {
@@ -78,6 +80,8 @@ const Chart = () => {
         },
       },
       tooltip: {
+        fillSeriesColor: true,
+        color:'#fff',
         shared: false,
         y: {
           formatter: function (val) {
@@ -110,12 +114,14 @@ const Chart = () => {
          options: {
            chart: {
              id: 'chart1',
-             foreColor: state.colorTheme === 'light' ? '#000' : '#fff'
+             foreColor: state.colorTheme === 'light' ? '#000' : '#fff',
+             background: state.colorTheme === 'light' ? '#fffffff0' :'#ffffff2e'
            }
          },
        })
 
   }, [state.colorTheme])
+  
    const onChangeCurrency = (num) => {
      setActiveButton(num)
    }
