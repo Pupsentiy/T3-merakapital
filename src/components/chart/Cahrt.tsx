@@ -1,29 +1,27 @@
-import React, {useEffect, useState} from "react";
+import {FC, useState} from "react";
 import ReactApexChart from "react-apexcharts";
-import {  useSelector } from "react-redux";
+import { ApexOptions } from "apexcharts";
+import styles from './Chart.module.scss'
+import { useTypedSelector} from "../../hooks/useTypedSelector";
 
-import styles from "./Chart.module.scss";
+import {ICurrency} from "../../store/types/types";
 
-const Chart = () => {
-  const state = useSelector(
-    (state) => state.data
+const Chart: FC = () => {
+  const state = useTypedSelector(
+      (state) => state.data
   );
-  const [activeButton, setActiveButton] = useState(0)
-  const [config, setConfig] = useState({
-    series: [
-      {
-        name: "usd".toUpperCase(),
-        data: state.usd.map(el => el.value) || [],
-      },
-    ],
-    options: {
+  const [activeButton, setActiveButton] = useState<number>(0)
+  const [config, setConfig] = useState<string>('usd');
+
+
+  const chartData: ApexOptions = {
+
       chart: {
         id: "chart1",
-        type: "area",
         stacked: false,
         height: 350,
-        foreColor:'#000',
-        background:'#fffffff0',
+          foreColor: state.colorTheme === 'light' ? '#000' : '#fff',
+          background: state.colorTheme === 'light' ? '#fffffff0' : '#ffffff2e',
         zoom: {
           type: "x",
           enabled: true,
@@ -33,8 +31,6 @@ const Chart = () => {
           autoSelected: "zoom",
         },
       },
-      labels:  state.usd.map(el => el.time) || [],
-
       colors: ['rgba(205,114,114,0.94)'],
       dataLabels: {
         enabled: false,
@@ -59,7 +55,7 @@ const Chart = () => {
       },
       yaxis: {
         labels: {
-          formatter: function (val) {
+          formatter: function (val: number) {
             return val.toFixed(0) + "$";
           },
         },
@@ -69,60 +65,40 @@ const Chart = () => {
       },
       xaxis: {
         type: "datetime",
+          categories:state.usd.map(el => el.time),
         title: {
           text: "Date",
 
         },
-        labels: {
-          formatter: function (value, timestamp) {
+         labels: {
+           formatter: function (value: string | number | Date, timestamp: undefined) {
             return new Date(value).toDateString().slice(4, 11);
           },
-        },
+         },
       },
       tooltip: {
         fillSeriesColor: true,
-        color:'#fff',
         shared: false,
         y: {
-          formatter: function (val) {
+          formatter: function (val: any) {
             return val;
           },
         },
       },
-    },
-  });
+    series: [
+      {
+        name: "usd".toUpperCase(),
+        data: state[config as keyof ICurrency].map(el => el.value),
+      },
+    ],
 
+  }
 
-   const setUpdateDate = (str) => {
-       setConfig({
-         ...config,
-         options: {
-           chart: {
-             id: 'chart1'
-           }
-         },
-         series: [{
-           name: str.toUpperCase(),
-           data: state[str].map(el => el.value) || []
-         }]
-       })
+  const setUpdateDate = (str: string) => {
+      setConfig(str)
+  }
 
-   }
-  useEffect(() => {
-       setConfig({
-         ...config,
-         options: {
-           chart: {
-             id: 'chart1',
-             foreColor: state.colorTheme === 'light' ? '#000' : '#fff',
-             background: state.colorTheme === 'light' ? '#fffffff0' :'#ffffff2e'
-           }
-         },
-       })
-
-  }, [state.colorTheme])
-  
-   const onChangeCurrency = (num) => {
+  const onChangeCurrency = (num: number) => {
      setActiveButton(num)
    }
 
@@ -144,8 +120,8 @@ const Chart = () => {
       </div>
       <div id="chart">
         <ReactApexChart
-          options={config.options}
-          series={config.series}
+          options={chartData}
+          series={chartData.series}
           type="area"
           height={350}
         />

@@ -1,26 +1,27 @@
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {FC, useEffect, useState} from "react";
+
+import {useAppDispatch, useTypedSelector} from "../../hooks/useTypedSelector";
+import {useTheme} from "../../hooks/use-theme";
 
 import {fetchDataAction, setButtonNumAction, setColorThemeAction} from "../../store/action-creators/data";
 
 import styles from "./Header.module.scss";
-import {useTheme} from "../../hooks/use-theme";
 
-const Header = () => {
-  const dispatch = useDispatch()
-  const { theme, setTheme } = useTheme()
-  const {reqNumber} = useSelector(
+const Header: FC = () => {
+  const dispatch = useAppDispatch()
+  const {theme, setTheme} = useTheme()
+  const {reqNumber} = useTypedSelector(
       (state) => state.data
   );
-  const [num,setNum] = useState(1)
+  const [num, setNum] = useState(1)
 
   const setNumFetch = () => {
     dispatch(fetchDataAction(
         reqNumber
     ))
   }
-  const getBtnNum = (event) => {
-    const id = event.target.innerHTML
+  const getBtnNum = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const id = (event.target as Element).innerHTML
     dispatch(setButtonNumAction(Number(id)))
     setNum(Number(id))
   }
@@ -31,7 +32,7 @@ useEffect(() => {
 
 
 
-  const handleThemeClick = (theme) => {
+  const handleThemeClick = (theme:string) => {
     setTheme(theme)
     dispatch(setColorThemeAction(theme))
   }
