@@ -1,18 +1,16 @@
 import axios from "axios";
-import {Dispatch} from "react";
-import {DataActionTypes, IGetButtonNum, ISetColorAction} from "../types/types";
-import {TDataAction} from "../reducers/dataReducer";
+import { Dispatch } from "react";
 
-
+import { DataActionTypes, IFetchData, TDataAction } from "../types/types";
 
 export const fetchDataAction = (params: number) => {
-  return async (dispatch:Dispatch<TDataAction>) => {
+  return async (dispatch: Dispatch<TDataAction>) => {
     try {
       dispatch({ type: DataActionTypes.FETCH_DATA });
-      const {data} = await axios.get<any>(
+      const { data } = await axios.get<IFetchData>(
         `https://api.1282075-cv69336.tw1.ru/api/dashboard?st_num=${params}`
       );
-        dispatch({ type: DataActionTypes.FETCH_DATA_SUCCESS, payload: data });
+      dispatch({ type: DataActionTypes.FETCH_DATA_SUCCESS, payload: data });
     } catch (e) {
       dispatch({
         type: DataActionTypes.FETCH_DATA_ERROR,
@@ -23,13 +21,13 @@ export const fetchDataAction = (params: number) => {
 };
 
 export const setButtonNumAction = (num: number) => {
-  return (dispatch:Dispatch<IGetButtonNum>) => {
-    dispatch({type: DataActionTypes.GET_BUTTON_NUM, payload:num})
-  }
-}
+  return (dispatch: Dispatch<TDataAction>) => {
+    dispatch({ type: DataActionTypes.GET_BUTTON_NUM, payload: num });
+  };
+};
 
-export const setColorThemeAction= (theme: string) => {
-  return (dispatch:Dispatch<ISetColorAction>) => {
-    dispatch({type: DataActionTypes.SET_COLOR_THEME, payload:theme})
-  }
-}
+export const setColorThemeAction = (theme: string) => {
+  return (dispatch: Dispatch<TDataAction>) => {
+    dispatch({ type: DataActionTypes.SET_COLOR_THEME, payload: theme });
+  };
+};
